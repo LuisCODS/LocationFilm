@@ -1,23 +1,3 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4541
-#
-# http://www.sequelpro.com/
-# https://github.com/sequelpro/sequelpro
-#
-# Host: 127.0.0.1 (MySQL 5.7.26)
-# Database: bdfilms2
-# Generation Time: 2020-11-09 00:24:37 +0000
-# ************************************************************
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 # Dump of table categories
@@ -43,9 +23,6 @@ VALUES
 	(2,'Romance','romance','2020-11-07 22:12:37','2020-11-07 22:12:37'),
 	(7,'test','test','2020-11-08 18:02:13','2020-11-08 18:02:13');
 
-/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 # Dump of table films
 # ------------------------------------------------------------
@@ -67,7 +44,6 @@ CREATE TABLE `films` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `films` WRITE;
-/*!40000 ALTER TABLE `films` DISABLE KEYS */;
 
 INSERT INTO `films` (`id`, `category_id`, `titre`, `image`, `preview_url`, `auteur`, `duree`, `prix`, `created_at`, `updated_at`)
 VALUES
@@ -80,8 +56,6 @@ VALUES
 	(25,1,'test','785f58b98ac6b89f9ef9853680645bb97177a151.jpg','sdddsdsdsd','suds','ds',21,'2020-11-08 22:30:50','2020-11-08 22:30:50'),
 	(26,1,'got 2','ba0d0f8db4257e6b5fc64565664c4b453bf4f90f.jpeg','dsdsdsdsds','ssddsd','3h 8m',12,'2020-11-08 22:31:32','2020-11-08 22:31:32');
 
-/*!40000 ALTER TABLE `films` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table locations
@@ -107,8 +81,6 @@ VALUES
 	(10,1,1,2,'2020-11-08 06:13:42','2020-11-08 06:13:42'),
 	(11,2,2,1,'2020-11-08 22:10:32','2020-11-08 22:10:32');
 
-/*!40000 ALTER TABLE `locations` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table membres
@@ -137,14 +109,4 @@ VALUES
 	(2,'test','test@yahoo.fr',0,'$2y$10$MxuvrN8Dc0ZQ6A5hIbfiPeKYtc4C3k3Xx1ER22NSNTZ43ZfzP2/Cq','2020-11-08 07:43:13','2020-11-08 02:39:03'),
 	(3,'admin','admin@gmail.com',1,'$2y$10$h1Pg/PTwAdytvUEqIomcKOqxRlaIEBuokcTG2..vYOxrEPu0Ws31S','2020-11-08 23:40:05','2020-11-08 07:34:22');
 
-/*!40000 ALTER TABLE `membres` ENABLE KEYS */;
-UNLOCK TABLES;
 
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
