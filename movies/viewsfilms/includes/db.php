@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bdfilms";
+  $host = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "bdfilms";
 
   try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -65,20 +65,23 @@ $dbname = "bdfilms";
     }
   }
 
+  //Methode qui recoit les input du login.php
   function login($email,$password,$conn){
     try {
-      $stmt=$conn->prepare("SELECT * FROM membres WHERE email = ?");
-      $stmt->execute([$email]);
-      $user = $stmt->fetch();
-        if ($user && password_verify($password, $user['password'])){
-          $_SESSION["email"] = $email;
-          $_SESSION["membre_id"] = $user['id'];
-          $_SESSION["is_admin"] = $user['is_admin'];
-          header("location:admin/dashboard.php");
-        }
-        else{
-          return 'Email/Mot de passe est Erroné !';
-        }
+          $stmt=$conn->prepare("SELECT * FROM membres WHERE email = ?");
+          $stmt->execute([$email]);
+          $user = $stmt->fetch();
+
+            if ($user && password_verify($password, $user['password']))
+            {
+              $_SESSION["email"] = $email;
+              $_SESSION["membre_id"] = $user['id'];
+              $_SESSION["is_admin"] = $user['is_admin'];
+              header("location:admin/dashboard.php");
+            }
+            else{
+              return 'Email/Mot de passe est Erroné !';
+            }
     } catch(PDOException $e) {
       die("Error While login the user: " . $e->getMessage());
     }
@@ -113,21 +116,27 @@ $dbname = "bdfilms";
 
   function addToCart($film_id,$quantity,$conn){
     try {
+    
       $membre_id = $_SESSION["membre_id"];
 
       $stmt = $conn->prepare( "SELECT * FROM locations WHERE film_id = ? AND membre_id = ?" );
       $stmt->execute([$film_id,$membre_id]);
       $location = $stmt->fetch();
-      if($location ) {
+
+      if($location ) 
+      {
           $newQuantity = $quantity + $location['quantity'];
-          $update_query=$conn->prepare("UPDATE locations SET quantity=? WHERE film_id = ? AND membre_id = ?");
+          $update_query=$conn->prepare("UPDATE locations SET quantity=?
+                                         WHERE film_id = ? AND membre_id = ?");
           $update_query->execute([$newQuantity,$film_id,$membre_id]);
           $count = $update_query->rowCount();
-          if($count > 0){
+
+          if($count > 0)
+          {
           return  "<script type='text/javascript'>toastr.success('Produit ajouté au panier avec Succès!!!')</script>";
-        }else{
-          return  "<script type='text/javascript'>toastr.danger('Une erreur est Survenue !!!')</script>";
-        }
+          }else{
+            return  "<script type='text/javascript'>toastr.danger('Une erreur est Survenue !!!')</script>";
+          }
       }
       else {
         $query=$conn->prepare("insert into locations set film_id=?, quantity=?,membre_id = ?");
@@ -184,7 +193,7 @@ $dbname = "bdfilms";
       $membre_id = $_SESSION["membre_id"];
       $stmt = $conn->prepare( "DELETE FROM locations WHERE membre_id = ?" );
       $stmt->execute([$membre_id]);
-      return  "<script type='text/javascript'>toastr.success('Votre panier a été vidé avec Succès !')</script>";
+      header("location:panier.php");
     } catch(PDOException $e) {
       die("Error While trashing the cart: " . $e->getMessage());
     }
@@ -195,7 +204,7 @@ $dbname = "bdfilms";
       $membre_id = $_SESSION["membre_id"];
       $stmt = $conn->prepare( "DELETE FROM locations WHERE film_id = ? AND membre_id = ?" );
       $stmt->execute([$film_id,$membre_id]);
-      return  "<script type='text/javascript'>toastr.success('Votre Produit a été Supprimé avec Succès !')</script>";
+      header("location:panier.php");
     } catch(PDOException $e) {
       die("Error While deleting from cart: " . $e->getMessage());
     }

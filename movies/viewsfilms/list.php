@@ -1,13 +1,17 @@
 <?php
  session_start();
- 
+
   include("includes/db.php");
 
+  //Get all movies
   $films = getAllMovies($conn);
 
     $errorMsg = "";
   try {
-    if(isset($_POST["addToCart"])){
+    //Si le boutton ajouter au panier a été cliqué
+    if(isset($_POST["addToCart"]))
+    {
+      //Envois a la méthode l'ID, la quantité et la connection
       $errorMsg = addToCart($_POST["film_id"],$_POST["quantity"], $conn);
     }
   }

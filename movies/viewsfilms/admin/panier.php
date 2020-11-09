@@ -4,6 +4,9 @@
   if(!isset($_SESSION["email"])){
       header("location:../login.php");
   }
+  $total = 0;
+  $grandTotal = 0;
+
   $locations = getPanier($conn);
   $errorMsg = "";
   try {
@@ -72,7 +75,7 @@
               <tbody>
                 <?php foreach($locations as $location) {
                   $final_price = $location['quantity'] * $location['prix'];
-                  $total = 0;
+                  
                   $total += $final_price;
                   ?>
                 <tr>
@@ -83,10 +86,7 @@
                   <td class="text-right">
                     <form method="post">
                       <input type="hidden" name="film_id" value="<?php echo $location["id"]; ?>">
-                      <button type="submit" name="deleteFromCart" class="btn btn-outline-danger">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                        Supprimer
-                      </button>
+                      <input type="submit" name="deleteFromCart" class="btn btn-danger" value="Supprimer" />
                     </form>
                   </td>
                 </tr>
@@ -100,14 +100,16 @@
               <?php
 
                 $tvq = ($total * 9.975) / 100;
-                $tps = ($total * 5) / 100;
+               $tps = ($total * 5) / 100;
+                 // $tvq = $total * 1.10; //c'est la que tu calcul ton tvq
+                 // $tps = $total * 1.05;
                 $grandTotal = $total + $tvq + $tps;
               ?>
               <p>
-                Sous-Total:$ <?php echo $total; ?> $ <br />
-                TVQ: $<?php echo $tvq; ?><br />
-                TPS: $<?php echo $tps; ?>$<br />
-                Total: $<?php echo $grandTotal; ?>$<br />
+                Sous-Total:$ <?php echo $total; ?> <br />
+                TVQ: $<?php echo round($tvq,2); ?><br />
+                TPS: $<?php echo round($tps,2); ?>$<br />
+                Total: $<?php echo round($grandTotal,2); ?><br />
               </p>
             </div>
           </div>
