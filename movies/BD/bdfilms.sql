@@ -101,7 +101,6 @@ CREATE TABLE `membres` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `membres` WRITE;
-/*!40000 ALTER TABLE `membres` DISABLE KEYS */;
 
 INSERT INTO `membres` (`id`, `nom`, `email`, `is_admin`, `password`, `created_at`, `updated_at`)
 VALUES
