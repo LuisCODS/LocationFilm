@@ -1,6 +1,8 @@
 <?php
  session_start();
+ 
   include("includes/db.php");
+
   $films = getAllMovies($conn);
 
     $errorMsg = "";

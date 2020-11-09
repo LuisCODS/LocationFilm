@@ -163,10 +163,17 @@ $dbname = "bdfilms";
 
   function getPanier($conn){
     try {
+
       $membre_id = $_SESSION["membre_id"];
-      $stmt = $conn->prepare('SELECT f.*, l.quantity As quantity FROM films f Left JOIN locations l  ON f.id=l.film_id WHERE membre_id = ? ORDER BY created_at ');
+      $stmt = $conn->prepare('SELECT f.*, l.quantity As quantity
+       FROM films f Left JOIN locations l
+       ON f.id=l.film_id
+       WHERE membre_id = ?
+       ORDER BY created_at ');
+
       $stmt->execute([$membre_id]);
       return $stmt->fetchAll();
+
     } catch(PDOException $e) {
       die("Error While getting the cart: " . $e->getMessage());
     }
@@ -196,9 +203,9 @@ $dbname = "bdfilms";
 
   function getFilmById($film_id,$conn){
     try {
-      $stmt = $conn->prepare( "SELECT * FROM films WHERE id = ?");
-      $stmt->execute([$film_id]);
-      return $stmt->fetch();
+          $stmt = $conn->prepare( "SELECT * FROM films WHERE id = ?");
+          $stmt->execute([$film_id]);
+          return $stmt->fetch();
     } catch(PDOException $e) {
       die("Error While getting a Film By Id: " . $e->getMessage());
     }
@@ -282,7 +289,6 @@ $dbname = "bdfilms";
     }
 
   }
-
 
   function newCategory($titre,$conn){
     try {
