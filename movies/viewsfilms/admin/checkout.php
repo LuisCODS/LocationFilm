@@ -28,7 +28,7 @@
      <div class="container">
        <div class="row box">
          <div class="col-md-12">
-           <form action="transactionReussie.php" novalidate="">
+           <form action="transactionReussie.php"  novalidate="">
              <div class="row">
                <div class="col-md-6">
                  <label for="firstName">Nom</label>
@@ -76,7 +76,7 @@
                </div>
              </div>
              <hr class="mb-4">
-             <button class="btn btn-primary btn-lg btn-block" type="submit">Confirmer</button>
+             <button class="btn btn-primary btn-lg btn-block" type="submit">Confirmer</button>            
            </form>
          </div>
        </div>

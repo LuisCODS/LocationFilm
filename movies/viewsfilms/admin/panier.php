@@ -101,8 +101,6 @@
 
                 $tvq = ($total * 9.975) / 100;
                $tps = ($total * 5) / 100;
-                 // $tvq = $total * 1.10; //c'est la que tu calcul ton tvq
-                 // $tps = $total * 1.05;
                 $grandTotal = $total + $tvq + $tps;
               ?>
               <p>

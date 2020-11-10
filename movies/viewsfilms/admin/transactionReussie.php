@@ -5,6 +5,7 @@
       header("location:../login.php");
   }
   viderPanier($conn);
+
 ?>
 
  <!DOCTYPE html>
