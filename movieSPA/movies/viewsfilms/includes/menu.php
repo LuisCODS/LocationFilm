@@ -45,11 +45,11 @@
           <?php } ?>
         </div>
       </li>
-      <form method="post" class="form-inline my-2 my-lg-0">
+<!--       <form method="post" class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" name="query" placeholder="Rechercher..." aria-label="Search"
           required>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search">Rechercher</button>
-      </form>
+      </form> -->
     </ul>
     <?php if(checkIfLogedIn()){ ?>
     <a class="navbar-brand" href="admin/panier.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Mon

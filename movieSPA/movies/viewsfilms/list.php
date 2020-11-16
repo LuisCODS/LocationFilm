@@ -29,11 +29,13 @@
       <div id="customer-data">
         <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif">
       </div>
-
     </section>
   </main>
+
   <?php include_once("includes/footer.php");?>
+     <!--  ====================== SCRIPT ====================== --> 
   <script>
+    // AU CHARGEMENT DE LA PAGE
   $(document).ready(function() {
     $.ajax({
       url: 'filmControleur.php',
@@ -57,6 +59,7 @@
     });
   });
 
+  // RECHERCHE PAR CATEGORIES
   function getFilmsByCat(slug, catTitre) {
     $.ajax({
       url: 'filmControleur.php',
@@ -82,6 +85,8 @@
     });
   }
   </script>
+       <!--  ====================== FIN SCRIPT ====================== --> 
+
 </body>
 
 </html>
