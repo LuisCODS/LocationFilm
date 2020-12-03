@@ -5,8 +5,8 @@ $stmt = $conn->prepare('SELECT * FROM categories');
 $stmt->execute();
 $categories = $stmt->fetchAll();
 $rentals = getRentals($conn);
-$membres = getAllMembers($conn);
-$films = getAllMovies($conn);
+$membres = json_decode(getAllMembers($conn),true);
+$films = json_decode(getAllMovies($conn),true);
 
 $getAction = "";
 $postAction = "";
@@ -27,11 +27,12 @@ if ($getAction || $postAction) {
     $header = "";
     if ($getAction == 'loadfilms' && ! is_admin()) {
       $films = getAllMovies($conn);
-
+      $films = json_decode($films, true);
     } else if ($getAction == 'getFilmsByCategory') {
       $slug = $_GET['slug'];
       $catTitre = $_GET['catTitre'];
       $films = getMoviesByCategory($slug, $conn);
+      $films = json_decode($films, true);
       $header = '<div class="alert alert-success" role="alert"><h1 class="jumbotron-heading"> (' . count($films) . ') Films dans la catégorie: ' . $catTitre . '</h1></div>';
     }
     $filmListing = '<div class="album py-5 bg-light">
@@ -178,8 +179,8 @@ if ($getAction || $postAction) {
           $pochette = $nomPochette . $extension;
           $data["image"] = $pochette;
         }
-        $msg = newFilm($data, $conn);
-        $films = getAllMovies($conn);
+        $msg = json_decode(newFilm($data, $conn),true);
+        $films = json_decode(getAllMovies($conn),true);
       } else if ($postAction == "updateFilm") {
         $data['titre'] = '';
         if (isset($_POST["titre"]))  $data["titre"] = $_POST["titre"];
@@ -205,11 +206,11 @@ if ($getAction || $postAction) {
           $toDelete = 1;
         }
         $msg =
-          updateFilm($_POST["filmId"], $data, $conn, $toDelete);
-        $films = getAllMovies($conn);
+          json_decode(updateFilm($_POST["filmId"], $data, $conn, $toDelete),true);
+        $films = json_decode(getAllMovies($conn),true);
       } else if ($postAction == "deleteFilm") {
-        $msg = deleteMovie($_POST["film_id"], $conn);
-        $films = getAllMovies($conn);
+        $msg = json_decode(deleteMovie($_POST["film_id"], $conn),true);
+        $films = json_decode(getAllMovies($conn),true);
       }
       $filmListing = '<div class="col pt-2">
             <div class="row justify-content-center ">
@@ -284,7 +285,7 @@ if ($getAction || $postAction) {
                                 </div>
                                 </div>';
     }
-    echo $filmListing;
+    echo json_encode($filmListing);
   }
 
   //Gestion des Categories
@@ -299,6 +300,7 @@ if ($getAction || $postAction) {
       $msg = updateCategory($_POST["catId"], $_POST["catTitle"], $conn);
     }
     $categories = getAllCategories($conn);
+    $categories = json_decode( $categories,true);
     $categoryListing = '<div class="col pt-2">
         <div class="row justify-content-center ">
           <div class="col-12">
@@ -313,7 +315,7 @@ if ($getAction || $postAction) {
             </div>';
     if ($msg) {
       $categoryListing .= '<div id="message">
-                    <div class="alert alert-success" id="success-alert"> <strong> Success! </strong>"' . $msg . '
+                    <div class="alert alert-success" id="success-alert"> <strong> Success! </strong>"' . json_decode( $msg,true) . '
                 "</div>';
     }
     $categoryListing .= '<div id="message"></div>
@@ -363,7 +365,7 @@ if ($getAction || $postAction) {
                           </div>
                           </div>
                           </div>';
-    echo $categoryListing;
+    echo json_encode($categoryListing);
   }
 
   //Gestion du Panier
@@ -376,6 +378,7 @@ if ($getAction || $postAction) {
     $total = 0;
     $grandTotal = 0;
     $locations = getPanier($conn);
+    $locations = json_decode($locations,true);
     $panierListing = "";
     if (count($locations)) {
       $panierListing = '<section class="jumbotron text-center">
@@ -487,14 +490,14 @@ if ($getAction || $postAction) {
       </div>
     </section>';
     }
-    echo $panierListing;
+    echo json_encode($panierListing);
   }
 
   //Gestion de l'authetification
   if (($getAction == 'logout' || $postAction == "login" || $postAction == "register")) {
     if ($getAction == "logout") {
       session_destroy();
-      echo "success";
+      echo json_encode("success");
     } else if ($postAction == "login") {
       echo
         login($_POST["email"], $_POST["password"], $conn);
@@ -505,11 +508,12 @@ if ($getAction || $postAction) {
 
   if ($getAction == "confirmer") {
     $locations = getPanier($conn);
+    $locations = json_decode($locations,true);
     foreach ($locations as $location) {
       addToRentals($location["id"], $location["quantity"], $conn);
     }
     trashPanier($conn);
-    echo $thanksPage = '<div class="container p-5 mt-5">
+    $thanksPage = '<div class="container p-5 mt-5">
        <div class="jumbotron text-center box mt-5 ">
          <h1 class="display-3">Transaction Réussie !</h1>
          <p class="lead">Nous vous avons envoyer un <strong>email de confirmation</strong> avec les details de votre
@@ -517,6 +521,7 @@ if ($getAction || $postAction) {
          <hr>
        </div>
      </div>';
+     echo json_encode($thanksPage);
   } elseif ($getAction == "locations") {
     $rentalListing = '<div class="col pt-2">
         <div class="row justify-content-center ">
@@ -562,7 +567,7 @@ if ($getAction || $postAction) {
       </div>
       </div>
       </div>';
-    echo $rentalListing;
+    echo json_encode($rentalListing);
   } elseif ($getAction == "membres") {
     $membreListing = '
       <div class="col pt-2">
@@ -609,7 +614,7 @@ if ($getAction || $postAction) {
         </div>
         </div>
         </div>';
-    echo $membreListing;
+    echo json_encode($membreListing);
   } else if ($getAction == "home") {
     $welcomeSection = "";
     if (checkIfLogedIn() && !is_admin()) {
@@ -634,9 +639,9 @@ if ($getAction || $postAction) {
                         </div>
                         </div>';
     } elseif (checkIfLogedIn() && is_admin()) {
-      $films = getAllMovies($conn);
-      $membres = getAllMembers($conn);
-      $categories = getAllCategories($conn);
+      $films = json_decode(getAllMovies($conn),true);
+      $membres = json_decode(getAllMembers($conn),true);
+      $categories = json_decode(getAllCategories($conn),true);
       $welcomeSection = '<div class="jumbotron bg-info">
             <div class="row m-5">
               <div class="col main pt-5 mt-3">
@@ -699,11 +704,11 @@ if ($getAction || $postAction) {
       </div>
     </div>';
     }
-    echo $welcomeSection;
+    echo json_encode($welcomeSection);
   }
 
   if ($postAction == "getFilmById") {
-    $film = getFilmById($_POST["filmId"], $conn);
+    $film = json_decode(getFilmById($_POST["filmId"], $conn),true);
     $filmPage = '<div class="row justify-content-center ">
   <div class="col-12">
     <div class="container login-container">
@@ -779,10 +784,10 @@ if ($getAction || $postAction) {
                 </div>
                 </div>
                 </div>';
-    echo $filmPage;
+    echo json_encode($filmPage);
   } elseif ($postAction == "deleteMembre") {
-    $msg = deleteMember($_POST["id"], $conn);
-    $membres = getAllMembers($conn);
+    $msg = json_decode(deleteMember($_POST["id"], $conn));
+    $membres = json_decode(getAllMembers($conn),true);
     $membreListing = '<div class="col pt-2">
       <div class="row justify-content-center ">
         <div class="col-12">
@@ -834,10 +839,10 @@ if ($getAction || $postAction) {
     </div>
     </div>
     </div>';
-    echo $membreListing;
+    echo json_encode($membreListing);
   } elseif ($postAction == "getCategoryById") {
-    $cat = getCategoryById($_POST["categoryId"], $conn);
-    echo '<div class="row justify-content-center ">
+    $cat = json_decode(getCategoryById($_POST["categoryId"], $conn),true);
+    echo json_encode('<div class="row justify-content-center ">
           <div class="col-12">
             <div class="container login-container">
               <div class="row">
@@ -864,72 +869,6 @@ if ($getAction || $postAction) {
               </div>
             </div>
           </div>
-        </div>';
-  } elseif ($postAction == "deleteMembrer") {
-    $msg = deleteCategory($_POST["id"], $conn);
-    $categories = getAllCategories($conn);
-    $categoriesListing = '<div class="col pt-2">
-      <div class="row justify-content-center ">
-        <div class="col-12">
-          <div class="jumbotron bg-info">
-            <div class="row">
-              <div class="col main pt-0">
-                <h1 class=" d-none d-sm-block text-center text-white">
-                  Liste de Catégories (' . count($categories) . ')
-                </h1>
-              </div>
-            </div>
-          </div>
-          <div id="message">
-            <div class="alert alert-success" id="success-alert"> <strong> Success! </strong>"' . $msg . '
-        "</div>
-          </div>
-          <div class="container box">
-                  <div class="row mb-4">
-                    <div class="col-md-2 ml-auto">
-                      <a href="#" onclick="addCategory()" class="btn btn-md btn-block btn-success text-uppercase m-2">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i> Ajouter</a>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="table-responsive table-hover">
-                        <table class="table table-striped">
-                          <thead class="bg-info text-white">
-                            <tr>
-                              <th scope="col3">Titre</th>
-                              <th colspan="2" scope="col3" class="text-center">Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>';
-    foreach ($categories as $categorie) {
-      $categoriesListing .= '<tr><td>' .
-        $categorie["titre"] . '</td>
-                            <td class="text-right">
-                              <a href="#" onclick="editCat(' . $categorie["id"] . ')" class="btn
-                                  btn-outline-info">
-                                  <i class="fa fa-edit" aria-hidden="true"></i>
-                                  Modifier
-                                </a>
-                            </td>
-                          <td>
-                          <a href="#" onclick="deleteCat(' . $categorie["id"] . ')" class="btn
-                                  btn-outline-danger">
-                                  <i class="fa fa-edit" aria-hidden="true"></i>
-                                  Supprimer
-                                </a>
-                        </td>
-                      </tr>';
-    }
-    $categoriesListing .= '</tbody>
-                    </table>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>';
-    echo $categoriesListing;
+        </div>');
   }
 }

@@ -38,17 +38,17 @@ try {
 
   <!--  ====================== BEGIN SCRIPT ====================== -->
   <script>
-
   // AU CHARGEMENT DE LA PAGE
   $(document).ready(function() {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "loadfilms"
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -68,11 +68,12 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "home",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
         $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
           $("#success-alert").slideUp(500);
         });
@@ -95,11 +96,12 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "getPanier",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
         $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
           $("#success-alert").slideUp(500);
         });
@@ -122,12 +124,13 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "deleteFromCart",
         film_id: film_id
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
         // cacher l'erreur apres 5 secondes
         $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
           $("#success-alert").slideUp(500);
@@ -152,11 +155,12 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "viderPanier",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -239,18 +243,17 @@ try {
     $('#content').html(checkoutPage);
   }
 
-
-
   // Confirmer le paiement
   function confirmer() {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "confirmer"
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -265,19 +268,19 @@ try {
     });
   }
 
-
   // RECHERCHE PAR CATEGORIES
   function getFilmsByCat(slug, catTitre) {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "getFilmsByCategory",
         slug: slug,
         catTitre: catTitre
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -297,11 +300,12 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "categories",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -363,12 +367,13 @@ try {
       $.ajax({
         url: 'filmControleur.php',
         type: "post",
+        datatype: 'json',
         data: {
           action: "addCategory",
           catTitle: catTitle,
         },
         success: function(data) {
-          $('#content').html(data);
+          $('#content').html(JSON.parse(data));
           $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
             $("#success-alert").slideUp(500);
           });
@@ -393,12 +398,13 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "post",
+      datatype: 'json',
       data: {
         action: "getCategoryById",
         categoryId: categoryId,
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -430,13 +436,14 @@ try {
       $.ajax({
         url: 'filmControleur.php',
         type: "post",
+        datatype: 'json',
         data: {
           action: "updateCategory",
           catTitle: catTitle,
           catId: catId
         },
         success: function(data) {
-          $('#content').html(data);
+          $('#content').html(JSON.parse(data));
           $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
             $("#success-alert").slideUp(500);
           });
@@ -462,12 +469,13 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "post",
+      datatype: 'json',
       data: {
         id: categoryId,
         action: "deleteCat",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
         $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
           $("#success-alert").slideUp(500);
         });
@@ -490,11 +498,12 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "allFilms",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -512,7 +521,7 @@ try {
   // Add film
   function addFilms() {
     <?php
-      $categories = getAllCategories($conn);
+      $categories = json_decode(getAllCategories($conn),true);
       ?>
     var filmPage = `
         <div class="row justify-content-center ">
@@ -616,12 +625,12 @@ try {
       $.ajax({
         url: 'filmControleur.php',
         type: "post",
-        dataType: 'text',
+        datatype: 'json',
         data: formData,
         processData: false,
         contentType: false,
         success: function(data) {
-          $('#content').html(data);
+          $('#content').html(JSON.parse(data));
           $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
             $("#success-alert").slideUp(500);
           });
@@ -646,12 +655,13 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "post",
+      datatype: 'json',
       data: {
         action: "getFilmById",
         filmId: filmId,
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -699,12 +709,12 @@ try {
       $.ajax({
         url: 'filmControleur.php',
         type: "post",
-        dataType: 'text',
+        datatype: 'json',
         data: formData,
         processData: false,
         contentType: false,
         success: function(data) {
-          $('#content').html(data);
+          $('#content').html(JSON.parse(data));
           $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
             $("#success-alert").slideUp(500);
           });
@@ -730,12 +740,13 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "post",
+      datatype: 'json',
       data: {
         film_id: filmId,
         action: "deleteFilm",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
         $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
           $("#success-alert").slideUp(500);
         });
@@ -758,11 +769,12 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "membres",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -782,12 +794,13 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "post",
+      datatype: 'json',
       data: {
         id: membreId,
         action: "deleteMembre",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
         $("#success-alert").fadeTo(5000, 500).slideUp(500, function() {
           $("#success-alert").slideUp(500);
         });
@@ -810,11 +823,12 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "locations",
       },
       success: function(data) {
-        $('#content').html(data);
+        $('#content').html(JSON.parse(data));
       },
       error: function(xhr, ajaxOptions, thrownError) {
         var errorMsg = 'La requête Ajax a échoué: ';
@@ -830,7 +844,7 @@ try {
   }
 
   //Page login
-  function register(){
+  function register() {
     window.location = "login.php";
   }
 
@@ -839,11 +853,12 @@ try {
     $.ajax({
       url: 'filmControleur.php',
       type: "get",
+      datatype: 'json',
       data: {
         action: "logout",
       },
       success: function(data) {
-        if (data == "success") {
+        if (JSON.parse(data) == "success") {
           window.location = "login.php";
         }
       },
