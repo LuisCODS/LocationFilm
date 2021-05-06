@@ -1,6 +1,14 @@
 
 --
 -- Banco de dados: `bdfilms`
+
+-- conecao admin:
+--  senha : 1234
+ -- user: admin@gmail.com
+
+ -- conecao membre:
+--  senha : funcional
+ -- user: tennis.bresil@gmail.com
 --
 CREATE DATABASE IF NOT EXISTS `bdfilms` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `bdfilms`;
